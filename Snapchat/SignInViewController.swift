@@ -9,14 +9,20 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import FirebaseDatabase
+
 
 class SignInViewController: UIViewController {
     
     @IBOutlet weak var passwordTextFiled: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+
+        
     }
     
     
@@ -36,6 +42,9 @@ class SignInViewController: UIViewController {
                     if error != nil{
                         print("Hey there is an error:\(error)")
                     }else{
+                        
+                FIRDatabase.database().reference().child("users").child(user!.uid).child("email").setValue(user!.email)
+                        
                         print("User created sucessfully")
                         self.performSegue(withIdentifier: "siginsegue", sender: nil)
                     }
