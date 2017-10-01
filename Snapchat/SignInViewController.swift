@@ -20,19 +20,39 @@ class SignInViewController: UIViewController {
     }
     
     
-    @IBAction func turnUpButtonTapped(_ sender: Any) {
+    @IBAction func turnUpTapped(_ sender: Any) {
+        
         FIRAuth.auth()?.signIn(withEmail: emailTextField.text!, password: passwordTextFiled.text!, completion: { (user, error) in
             
-            print("We tried to signin")
+            print("Tried to signin")
             
-            if error !=nil {
-                print("There is an error:\(error)")
-            } else {
-                print("Signed in Successfully")
+            if error != nil{
+                print("Hey there is an error :\(error)")
+                
+                FIRAuth.auth()?.createUser(withEmail:self.emailTextField.text!, password:self.passwordTextFiled.text!, completion: { (user, error) in
+                    
+                    print("we tried to create user")
+                    
+                    if error != nil{
+                        print("Hey there is an error:\(error)")
+                    }else{
+                        print("User created sucessfully")
+                        self.performSegue(withIdentifier: "siginsegue", sender: nil)
+                    }
+                    
+                    
+                })
+                
+                
+            } else{
+                print("Signed in Scucessful!")
+                self.performSegue(withIdentifier: "siginsegue", sender: nil)
             }
             
         })
+        
     }
+    
     
 }
 
